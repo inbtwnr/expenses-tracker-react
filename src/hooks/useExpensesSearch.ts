@@ -1,11 +1,11 @@
-import {useForm} from "react-hook-form";
-import {Expense} from "../types/expense.types.ts";
+import { useForm } from "react-hook-form";
+import { Expense } from "../types/expense.types.ts";
 
 export const useExpensesSearch = () => {
-    const { handleSubmit, register } = useForm<Expense>()
+  const { handleSubmit, register } = useForm<Expense>();
 
-    return {
-        handleSubmit,
-        register,
-    }
-}
+  return {
+    handleSubmit,
+    register,
+  };
+};
