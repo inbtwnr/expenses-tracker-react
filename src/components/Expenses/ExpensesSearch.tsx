@@ -1,13 +1,13 @@
-import {Input} from "../Input/Input.tsx";
-import {Button} from "../Button/Button.tsx";
-import {ExpensesSearchProps} from "../../types/expense.types.ts";
+import {Input, Button} from "@/components";
+import {ExpensesSearchProps} from "@/types/expense.types.ts";
+import {cn} from "@/lib/utils"
 
 export const ExpensesSearch = (
-    {handleSubmit, register, onChangeExpenseList}: ExpensesSearchProps
+    {handleSubmit, register, onChangeExpenseList, className}: ExpensesSearchProps
 ) => {
     return (
-        <form onSubmit={handleSubmit(onChangeExpenseList)}>
-            <Input {...register('name')} />
+        <form className={cn(className)} onSubmit={handleSubmit(onChangeExpenseList)}>
+            <Input placeholder={'Search expense by name'} {...register('name')} />
             <Button type={'submit'}>Search Expenses</Button>
         </form>
     )

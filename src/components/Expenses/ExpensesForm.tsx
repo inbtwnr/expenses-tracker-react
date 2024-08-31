@@ -1,12 +1,26 @@
-import {Button} from "../Button/Button.tsx";
-import {Input} from "../Input/Input.tsx";
-import {ExpensesFormProps} from "../../types/expense.types.ts";
+import {Button,Input,SimpleCalendar} from "@/components";
+import {ExpensesFormProps} from "@/types/expense.types.ts";
+import {Controller} from "react-hook-form";
+import {cn} from "@/lib/utils";
 
-export const ExpensesForm = ({handleSubmit, onSubmit, register}: ExpensesFormProps) => {
+export const ExpensesForm = ({handleSubmit, onSubmit, register, control, className}: ExpensesFormProps) => {
+
     return (
-        <form className={'flex gap-2'} onSubmit={handleSubmit(onSubmit)}>
-            <Input type="text" {...register("name")} />
-            <Input type="number" {...register("amount")} />
+        <form className={cn(className)} onSubmit={handleSubmit(onSubmit)}>
+            <Input type="text" {...register("name")} placeholder={'Type a name'} />
+            <Input type="number" placeholder={'Type an amount'} {...register("amount")} />
+            <Controller
+                name={'createdAt'}
+                control={control}
+                render={({ field: { onChange, value } }) =>
+                    <SimpleCalendar
+                        label={'Enter date'}
+                        onSelect={onChange} // send value to hook form
+                        mode="single"
+                        selected={value}
+                        className="rounded-md border"
+                    />}
+            />
             <Button type="submit">Add expense</Button>
         </form>
     )

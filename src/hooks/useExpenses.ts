@@ -13,7 +13,7 @@ export const useExpenses = () => {
         expenses
     ])
 
-    const { register, handleSubmit } = useForm<Expense>()
+    const { register, handleSubmit, control } = useForm<Expense>()
 
     const NO_NAME = 'No name';
     const NO_AMOUNT = 0;
@@ -23,7 +23,7 @@ export const useExpenses = () => {
             name: data.name.length > 0 ? data.name : NO_NAME,
             amount: data.amount > 0 ? data.amount : NO_AMOUNT,
             id: uuidv4(),
-            createdAt: new Date().toISOString(),
+            createdAt: data.createdAt ? data.createdAt : new Date(),
         }
         setExpenses(prevState => {
             return [expense, ...prevState]
@@ -32,8 +32,6 @@ export const useExpenses = () => {
 
     const handleFilter = (data: Expense) => {
         const {name} = data
-        console.log(data)
-        console.log(expenses.filter(expense => expense.name.toLowerCase().includes(name.toLowerCase())))
         return expenses.filter(expense => expense.name.toLowerCase().includes(name.toLowerCase()));
     }
 
@@ -52,6 +50,7 @@ export const useExpenses = () => {
         onSubmit,
         handleFilter,
         displayExpenses,
-        onChangeExpenseList
+        onChangeExpenseList,
+        control
     }
 }
