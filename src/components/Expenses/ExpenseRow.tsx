@@ -1,5 +1,5 @@
 import { ExpenseCardProps } from "@/types/expense.types.ts";
-import { TableCell, TableRow, Button } from "@/components";
+import { TableCell, TableRow, Button, Input } from "@/components";
 import { normalizeDate } from "@/lib/utils/normalizeDate.ts";
 
 export const ExpenseRow = (props: ExpenseCardProps) => {
@@ -14,7 +14,10 @@ export const ExpenseRow = (props: ExpenseCardProps) => {
 
   return (
     <TableRow>
-      <TableCell>{name}</TableCell>
+      <TableCell>
+        <Input />
+        {name}
+      </TableCell>
       <TableCell>{amount}</TableCell>
       <TableCell>{createdAt}</TableCell>
       <TableCell>

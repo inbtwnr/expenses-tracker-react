@@ -5,18 +5,23 @@ import {
   UseFormRegister,
 } from "react-hook-form";
 import * as React from "react";
+import { z } from "zod";
 
 interface Expenses {
   expenses: Expense[];
   handleDelete: (id: string) => void;
 }
 
-type Expense = {
-  name: string;
-  amount: number;
-  id: string;
-  createdAt: Date;
-};
+const expenseSchema = z.object({
+  name: z.string().min(3, {
+    message: "Username must be at least 2 characters.",
+  }),
+  amount: z.number(),
+  id: z.string(),
+  createdAt: z.date(),
+});
+
+type Expense = typeof expenseSchema;
 
 interface ExpenseCardProps {
   state: Expense;
@@ -44,6 +49,7 @@ type ExpensesSearchProps = {
   onChangeExpenseList: (data: Expense) => void;
 };
 
+export { expenseSchema };
 export type {
   Expenses,
   ExpenseCardProps,

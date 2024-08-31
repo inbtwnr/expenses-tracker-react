@@ -3,6 +3,7 @@ import { ExpensesFormProps } from "@/types/expense.types.ts";
 import { Controller } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { Calendar } from "lucide-react";
+import { Form } from "@/components/Form/Form.tsx";
 
 export const ExpensesForm = ({
   handleSubmit,
@@ -12,7 +13,7 @@ export const ExpensesForm = ({
   className,
 }: ExpensesFormProps) => {
   return (
-    <form className={cn(className)} onSubmit={handleSubmit(onSubmit)}>
+    <Form>
       <Input type="text" {...register("name")} placeholder={"Type a name"} />
       <Input
         type="number"
@@ -37,6 +38,6 @@ export const ExpensesForm = ({
         )}
       />
       <Button type="submit">Add expense</Button>
-    </form>
+    </Form>
   );
 };

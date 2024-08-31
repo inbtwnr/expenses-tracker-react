@@ -1,7 +1,10 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 import { useEffect, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
-import { Expense } from "../types/expense.types.ts";
+import { Expense, expenseSchema } from "../types/expense.types.ts";
 
 export const useExpenses = () => {
   const [expenses, setExpenses] = useState<Expense[]>([]);
@@ -11,14 +14,16 @@ export const useExpenses = () => {
     setDisplayExpenses(expenses);
   }, [expenses]);
 
-  const { register, handleSubmit, control } = useForm<Expense>();
+  const form = useForm<z.infer<typeof expenseSchema>>({
+    resolver: zodResolver(expenseSchema),
+  });
 
   const NO_NAME = "No name";
   const NO_AMOUNT = 0;
 
-  const onSubmit: SubmitHandler<Expense> = (data) => {
+  const onSubmit = (data: z.infer<typeof expenseSchema>) => {
     const expense: Expense = {
-      name: data.name.length > 0 ? data.name : NO_NAME,
+      name: data.name.length > 3 ? data.name : NO_NAME,
       amount: data.amount > 0 ? data.amount : NO_AMOUNT,
       id: uuidv4(),
       createdAt: data.createdAt ? data.createdAt : new Date(),
@@ -44,13 +49,11 @@ export const useExpenses = () => {
   };
 
   return {
-    register,
-    handleSubmit,
+    form,
     handleDelete,
     onSubmit,
     handleFilter,
     displayExpenses,
     onChangeExpenseList,
-    control,
   };
 };
