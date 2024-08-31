@@ -3,13 +3,13 @@ import { cn } from "@/lib/utils";
 import { buttonVariants } from "../Button/button.variants.ts";
 
 import { DayPicker } from "react-day-picker";
-import "react-day-picker/style.css";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/Popover/Popover.tsx";
 import { Button } from "@/components";
+import { ReactNode } from "react";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 
@@ -63,20 +63,23 @@ function Calendar({
 }
 
 type SimpleCalendarProps = CalendarProps & {
-  label: string;
+  label: ReactNode;
 };
 
 function SimpleCalendar(simpleCalendarProps: SimpleCalendarProps) {
   const { label, ...rest } = simpleCalendarProps;
+  const [open, setOpen] = React.useState(false);
+
+  const toggle = () => setOpen(!open);
 
   return (
-    <Popover>
-      <PopoverTrigger>
+    <Popover open={open} onOpenChange={toggle}>
+      <PopoverTrigger asChild>
         <Button type={"button"} variant={"outline"}>
           {label}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className={"w-28"}>
+      <PopoverContent className="w-auto p-0" align="center">
         <Calendar {...rest} />
       </PopoverContent>
     </Popover>

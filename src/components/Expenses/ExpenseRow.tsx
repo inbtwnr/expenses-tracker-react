@@ -1,13 +1,16 @@
-import { Button } from "../Button/Button.tsx";
-import { ExpenseCardProps } from "../../types/expense.types.ts";
-import { TableCell, TableRow } from "../Table/Table.tsx";
+import { ExpenseCardProps } from "@/types/expense.types.ts";
+import { TableCell, TableRow, Button } from "@/components";
+import { normalizeDate } from "@/lib/utils/normalizeDate.ts";
 
 export const ExpenseRow = (props: ExpenseCardProps) => {
   const {
     state: { name, amount, id, createdAt: _createdAt },
     handleDelete,
   } = props;
-  const createdAt = _createdAt?.toISOString();
+
+  const createdAt = normalizeDate({
+    value: _createdAt,
+  });
 
   return (
     <TableRow>

@@ -2,6 +2,7 @@ import { Button, Input, SimpleCalendar } from "@/components";
 import { ExpensesFormProps } from "@/types/expense.types.ts";
 import { Controller } from "react-hook-form";
 import { cn } from "@/lib/utils";
+import { Calendar } from "lucide-react";
 
 export const ExpensesForm = ({
   handleSubmit,
@@ -23,7 +24,12 @@ export const ExpensesForm = ({
         control={control}
         render={({ field: { onChange, value } }) => (
           <SimpleCalendar
-            label={"Enter date"}
+            label={
+              <span className={"gap-x-2 items-center flex"}>
+                <Calendar size={16} className={"text-slate-500"} />
+                Enter date
+              </span>
+            }
             onSelect={onChange} // send value to hook form
             mode="single"
             selected={value}
