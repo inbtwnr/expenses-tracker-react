@@ -14,7 +14,6 @@ export const ExpensesForm = ({
     <form className={cn(className)} onSubmit={handleSubmit(onSubmit)}>
       <Input type="text" {...register("name")} placeholder={"Type a name"} />
       <Input
-
         type="number"
         placeholder={"Type an amount"}
         {...register("amount")}

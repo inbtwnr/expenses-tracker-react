@@ -8,7 +8,11 @@ import eslintConfigPrettier from "eslint-config-prettier";
 export default tseslint.config(
   { ignores: ["dist"] },
   {
-    extends: [js.configs.recommended, ...tseslint.configs.recommended, eslintConfigPrettier],
+    extends: [
+      js.configs.recommended,
+      ...tseslint.configs.recommended,
+      eslintConfigPrettier,
+    ],
     files: ["**/*.{ts,tsx}"],
     languageOptions: {
       ecmaVersion: 2020,
@@ -24,6 +28,7 @@ export default tseslint.config(
         "warn",
         { allowConstantExport: true },
       ],
+      indent: "error",
     },
   },
 );
