@@ -2,7 +2,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useEffect, useState } from "react";
-import { SubmitHandler } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import { Expense, expenseSchema } from "../types/expense.types.ts";
 
@@ -22,6 +21,7 @@ export const useExpenses = () => {
   const NO_AMOUNT = 0;
 
   const onSubmit = (data: z.infer<typeof expenseSchema>) => {
+    console.log("here?");
     const expense: Expense = {
       name: data.name.length > 3 ? data.name : NO_NAME,
       amount: data.amount > 0 ? data.amount : NO_AMOUNT,

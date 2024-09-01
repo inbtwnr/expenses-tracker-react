@@ -28,7 +28,6 @@ export default tseslint.config(
         "warn",
         { allowConstantExport: true },
       ],
-      indent: "error",
     },
   },
 );

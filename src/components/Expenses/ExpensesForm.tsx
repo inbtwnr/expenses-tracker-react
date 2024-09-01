@@ -1,43 +1,93 @@
 import { Button, Input, SimpleCalendar } from "@/components";
 import { ExpensesFormProps } from "@/types/expense.types.ts";
-import { Controller } from "react-hook-form";
-import { cn } from "@/lib/utils";
 import { Calendar } from "lucide-react";
-import { Form } from "@/components/Form/Form.tsx";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/Form/Form.tsx";
+import { cn } from "@/lib/utils";
 
 export const ExpensesForm = ({
-  handleSubmit,
-  onSubmit,
-  register,
-  control,
+  form,
   className,
+  onSubmit,
 }: ExpensesFormProps) => {
+  function handleChangeAmount(value: string, callback: (num: number) => void) {
+    const amount = Number(value);
+    if (isNaN(amount)) return;
+    callback(amount);
+  }
+
   return (
-    <Form>
-      <Input type="text" {...register("name")} placeholder={"Type a name"} />
-      <Input
-        type="number"
-        placeholder={"Type an amount"}
-        {...register("amount")}
-      />
-      <Controller
-        name={"createdAt"}
-        control={control}
-        render={({ field: { onChange, value } }) => (
-          <SimpleCalendar
-            label={
-              <span className={"gap-x-2 items-center flex"}>
-                <Calendar size={16} className={"text-slate-500"} />
-                Enter date
-              </span>
-            }
-            onSelect={onChange} // send value to hook form
-            mode="single"
-            selected={value}
-          />
-        )}
-      />
-      <Button type="submit">Add expense</Button>
+    <Form {...form}>
+      <form
+        className={cn(className)}
+        onSubmit={form.handleSubmit(onSubmit, (e) => {
+          console.log(e);
+        })}
+      >
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Name of expense</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter a name" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="amount"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Amount</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Amount"
+                  name={field.name}
+                  value={field.value}
+                  onChange={(event) =>
+                    handleChangeAmount(event.target.value, field.onChange)
+                  }
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name={"createdAt"}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>When?</FormLabel>
+              <FormControl>
+                <SimpleCalendar
+                  label={
+                    <span className={"gap-x-2 items-center flex"}>
+                      <Calendar size={16} className={"text-slate-500"} />
+                      Enter date
+                    </span>
+                  }
+                  selected={field.value}
+                  onSelect={field.onChange}
+                  mode="single"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit">Add expense</Button>
+      </form>
     </Form>
   );
 };

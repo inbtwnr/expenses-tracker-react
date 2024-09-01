@@ -6,15 +6,8 @@ import { useExpensesSearch } from "../hooks/useExpensesSearch.ts";
 import { ExpensesSearch } from "../components/Expenses/ExpensesSearch.tsx";
 
 export const ExpensesPage = () => {
-  const {
-    handleSubmit: handleAppend,
-    onSubmit,
-    register: registerAppend,
-    handleDelete,
-    displayExpenses,
-    control,
-    onChangeExpenseList,
-  } = useExpenses();
+  const { onSubmit, handleDelete, displayExpenses, onChangeExpenseList, form } =
+    useExpenses();
   const { handleSubmit: handleSearch, register: registerSearch } =
     useExpensesSearch();
 
@@ -27,13 +20,7 @@ export const ExpensesPage = () => {
         register={registerSearch}
         onChangeExpenseList={onChangeExpenseList}
       />
-      <ExpensesForm
-        className={"flex gap-2"}
-        control={control}
-        onSubmit={onSubmit}
-        handleSubmit={handleAppend}
-        register={registerAppend}
-      />
+      <ExpensesForm className={"flex gap-2"} form={form} onSubmit={onSubmit} />
       {displayExpenses.length === 0 ? (
         <EmptyList>There is no Expenses</EmptyList>
       ) : (

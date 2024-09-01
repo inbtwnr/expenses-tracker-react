@@ -1,8 +1,8 @@
 import {
-  Control,
   SubmitErrorHandler,
   SubmitHandler,
   UseFormRegister,
+  UseFormReturn,
 } from "react-hook-form";
 import * as React from "react";
 import { z } from "zod";
@@ -17,11 +17,15 @@ const expenseSchema = z.object({
     message: "Username must be at least 2 characters.",
   }),
   amount: z.number(),
-  id: z.string(),
   createdAt: z.date(),
 });
 
-type Expense = typeof expenseSchema;
+type Expense = {
+  name: string;
+  amount: number;
+  id: string;
+  createdAt: Date;
+};
 
 interface ExpenseCardProps {
   state: Expense;
@@ -29,14 +33,9 @@ interface ExpenseCardProps {
 }
 
 type ExpensesFormProps = {
-  handleSubmit: (
-    onValid: SubmitHandler<Expense>,
-    onInvalid?: SubmitErrorHandler<Expense>,
-  ) => (e?: React.BaseSyntheticEvent) => Promise<void>;
-  register: UseFormRegister<Expense>;
-  onSubmit: SubmitHandler<Expense>;
-  control: Control<Expense, any>;
+  form: UseFormReturn<z.infer<typeof expenseSchema>>;
   className?: string;
+  onSubmit: SubmitHandler<z.infer<typeof expenseSchema>>;
 };
 
 type ExpensesSearchProps = {
