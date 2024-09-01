@@ -21,7 +21,6 @@ export const useExpenses = () => {
   const NO_AMOUNT = 0;
 
   const onSubmit = (data: z.infer<typeof expenseSchema>) => {
-    console.log("here?");
     const expense: Expense = {
       name: data.name.length > 3 ? data.name : NO_NAME,
       amount: data.amount > 0 ? data.amount : NO_AMOUNT,

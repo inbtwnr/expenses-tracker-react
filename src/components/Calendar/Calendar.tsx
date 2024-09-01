@@ -10,6 +10,7 @@ import {
 } from "@/components/Popover/Popover.tsx";
 import { Button } from "@/components";
 import { ReactNode } from "react";
+import { normalizeDate } from "@/lib/utils/normalizeDate.ts";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 
@@ -67,7 +68,7 @@ type SimpleCalendarProps = CalendarProps & {
 };
 
 function SimpleCalendar(simpleCalendarProps: SimpleCalendarProps) {
-  const { label, ...rest } = simpleCalendarProps;
+  const { label, selected, ...rest } = simpleCalendarProps;
   const [open, setOpen] = React.useState(false);
 
   const toggle = () => setOpen(!open);
