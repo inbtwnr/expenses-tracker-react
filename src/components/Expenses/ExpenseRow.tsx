@@ -20,17 +20,13 @@ import { Calendar } from "lucide-react";
 
 export const ExpenseRow = (props: ExpenseCardProps) => {
   const {
-    state: { name, amount, id, createdAt: _createdAt },
+    state,
     handleDelete,
   } = props;
 
   const form = useForm<z.infer<typeof expenseSchema>>({
     resolver: zodResolver(expenseSchema),
-    defaultValues: {
-      name,
-      amount,
-      createdAt: _createdAt,
-    },
+    defaultValues: state,
   });
 
   function handleChangeAmount(value: string, callback: (num: number) => void) {
@@ -42,7 +38,7 @@ export const ExpenseRow = (props: ExpenseCardProps) => {
   return (
     <Form {...form}>
       <form>
-        <TableRow>
+        {<TableRow>
           <TableCell>
             <FormField
               control={form.control}
@@ -106,7 +102,7 @@ export const ExpenseRow = (props: ExpenseCardProps) => {
             <Button onClick={() => handleDelete(id)}>Delete</Button>
           </TableCell>
         </TableRow>
-      </form>
+}      </form>
     </Form>
   );
 };
