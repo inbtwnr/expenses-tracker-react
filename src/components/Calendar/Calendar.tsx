@@ -68,7 +68,8 @@ type SimpleCalendarProps = CalendarProps & {
 };
 
 function SimpleCalendar(simpleCalendarProps: SimpleCalendarProps) {
-  const { label, selected, ...rest } = simpleCalendarProps;
+  const { label, ...rest } = simpleCalendarProps;
+  const selectedDate = simpleCalendarProps.selected as Date
   const [open, setOpen] = React.useState(false);
 
   const toggle = () => setOpen(!open);
@@ -77,7 +78,9 @@ function SimpleCalendar(simpleCalendarProps: SimpleCalendarProps) {
     <Popover open={open} onOpenChange={toggle}>
       <PopoverTrigger asChild>
         <Button type={"button"} variant={"outline"}>
-          {label}
+          {selectedDate ? normalizeDate({
+            value: selectedDate
+          }) : label }
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="center">

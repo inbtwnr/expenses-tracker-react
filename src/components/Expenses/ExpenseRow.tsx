@@ -6,9 +6,9 @@ import {
   Input,
   SimpleCalendar,
 } from "@/components";
-import { normalizeDate } from "@/lib/utils/normalizeDate.ts";
-import { Form, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import {
+  Form,
   FormControl,
   FormField,
   FormItem,
@@ -27,6 +27,7 @@ export const ExpenseRow = (props: ExpenseCardProps) => {
   const form = useForm<z.infer<typeof expenseSchema>>({
     resolver: zodResolver(expenseSchema),
     defaultValues: state,
+    mode: 'onChange'
   });
 
   function handleChangeAmount(value: string, callback: (num: number) => void) {
@@ -37,8 +38,9 @@ export const ExpenseRow = (props: ExpenseCardProps) => {
 
   return (
     <Form {...form}>
-      <form>
-        {<TableRow>
+        <TableRow onSubmit={form.handleSubmit((event) => {
+          onSubmit
+        })}>
           <TableCell>
             <FormField
               control={form.control}
@@ -56,7 +58,7 @@ export const ExpenseRow = (props: ExpenseCardProps) => {
           <TableCell>
             <FormField
               control={form.control}
-              name="name"
+              name="amount"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
@@ -77,7 +79,7 @@ export const ExpenseRow = (props: ExpenseCardProps) => {
           <TableCell>
             <FormField
               control={form.control}
-              name={"createdAt"}
+              name="createdAt"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
@@ -99,10 +101,9 @@ export const ExpenseRow = (props: ExpenseCardProps) => {
             />
           </TableCell>
           <TableCell>
-            <Button onClick={() => handleDelete(id)}>Delete</Button>
+            <Button onClick={() => handleDelete(state.id)}>Delete</Button>
           </TableCell>
+            {/*</form>*/}
         </TableRow>
-}      </form>
-    </Form>
-  );
+  </Form>);
 };

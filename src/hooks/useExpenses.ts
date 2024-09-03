@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Expense, expenseSchema } from "../types/expense.types.ts";
 
@@ -10,11 +10,19 @@ export const useExpenses = () => {
   const [displayExpenses, setDisplayExpenses] = useState<Expense[]>(expenses);
 
   useEffect(() => {
+    console.log('changed');
     setDisplayExpenses(expenses);
   }, [expenses]);
 
+  const initialExpense = useMemo(() => ({
+    name: "",
+    amount: 0,
+    createdAt: new Date(),
+  }), []);
+
   const form = useForm<z.infer<typeof expenseSchema>>({
     resolver: zodResolver(expenseSchema),
+    defaultValues: initialExpense
   });
 
   const NO_NAME = "No name";

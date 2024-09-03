@@ -30,6 +30,7 @@ type Expense = {
 interface ExpenseCardProps {
   state: Expense;
   handleDelete: (id: string) => void;
+  onSubmit: SubmitHandler<z.infer<typeof expenseSchema>>;
 }
 
 type ExpensesFormProps = {

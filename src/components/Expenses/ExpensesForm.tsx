@@ -26,9 +26,15 @@ export const ExpensesForm = ({
     <Form {...form}>
       <form
         className={cn(className)}
-        onSubmit={form.handleSubmit(onSubmit, (e) => {
-          console.log(e);
-        })}
+        onSubmit={form.handleSubmit(
+          (event) => {
+            onSubmit(event);
+            form.reset()
+          },
+          (e) => {
+            console.log(e);
+          },
+        )}
       >
         <FormField
           control={form.control}
